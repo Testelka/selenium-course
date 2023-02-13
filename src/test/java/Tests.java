@@ -4,6 +4,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.ie.InternetExplorerDriver;
+import org.openqa.selenium.safari.SafariDriver;
 
 public class Tests {
 
@@ -11,6 +15,10 @@ public class Tests {
     @BeforeEach
     public void setup() {
         driver = new ChromeDriver();
+        //driver = new FirefoxDriver();
+        //driver = new EdgeDriver();
+        //driver = new InternetExplorerDriver();
+        //driver = new SafariDriver();
     }
 
     @AfterEach
