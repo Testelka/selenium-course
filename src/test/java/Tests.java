@@ -15,10 +15,6 @@ public class Tests {
     @BeforeEach
     public void setup() {
         driver = new ChromeDriver();
-        //driver = new FirefoxDriver();
-        //driver = new EdgeDriver();
-        //driver = new InternetExplorerDriver();
-        //driver = new SafariDriver();
     }
 
     @AfterEach
@@ -30,7 +26,14 @@ public class Tests {
     public void exampleTest() {
         String url = "http://localhost:8080/";
         driver.get(url);
-        Assertions.assertEquals(url, driver.getCurrentUrl(),
-                "URL address of the main page is not what expected.");
+        Assertions.assertAll(
+                () -> Assertions.assertEquals(url, driver.getCurrentUrl(),
+                        "URL address of the main page is not what expected."),
+                () -> Assertions.assertEquals("Test App – Just another WordPress site",
+                        driver.getTitle(), "Site title is not correct.")
+        );
+
+
+
     }
 }
