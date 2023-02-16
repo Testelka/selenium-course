@@ -14,8 +14,10 @@ public class ExampleTests {
     public void setup() {
         driver = new ChromeDriver();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
+        //driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(10));
 
         //Duration implicitWait = driver.manage().timeouts().getImplicitWaitTimeout();
+        //Duration pageLoadTimeout = driver.manage().timeouts().getPageLoadTimeout();
     }
 
     @AfterEach
