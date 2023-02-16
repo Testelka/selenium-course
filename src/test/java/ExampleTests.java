@@ -1,7 +1,4 @@
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -23,7 +20,7 @@ public class ExampleTests {
     }
 
     @Test
-    public void addToCartTest() {
+    public void add_product_to_cart_should_header_show_product_price() {
         driver.get("http://localhost:8080/product/" +
                 "a-popular-history-of-astronomy-during-the-nineteenth-century-by-agnes-m-clerke/");
         WebElement addToCartButton = driver.findElement(By.name("add-to-cart"));
@@ -34,10 +31,10 @@ public class ExampleTests {
     }
 
     @Test
-    public void loginTest() {
+    public void admin_successful_login_should_display_my_account_content() {
         driver.get("http://localhost:8080/my-account/");
         driver.findElement(By.id("username")).sendKeys("admin");
-        driver.findElement(By.id("password")).sendKeys("admin");  
+        driver.findElement(By.id("password")).sendKeys("admin");
         driver.findElement(By.name("login")).click();
 
         Assertions.assertDoesNotThrow(() -> driver.findElement(By.className("woocommerce-MyAccount-content")),
