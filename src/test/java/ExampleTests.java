@@ -35,6 +35,12 @@ public class ExampleTests {
 
     @Test
     public void loginTest() {
+        driver.get("http://localhost:8080/my-account/");
+        driver.findElement(By.id("username")).sendKeys("admin");
+        driver.findElement(By.id("password")).sendKeys("admin");  
+        driver.findElement(By.name("login")).click();
 
+        Assertions.assertDoesNotThrow(() -> driver.findElement(By.className("woocommerce-MyAccount-content")),
+                "The my account content is missing. User probably is not logged in.");
     }
 }
