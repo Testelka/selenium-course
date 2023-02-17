@@ -17,13 +17,24 @@ public class ExampleTests {
     @BeforeEach
     public void setup() {
         driver = new ChromeDriver();
-        //driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
         wait = new WebDriverWait(driver, Duration.ofSeconds(5));
     }
 
     @AfterEach
     public void quitDriver() {
         driver.quit();
+    }
+
+    @Test
+    public void cart_not_changed_should_update_button_disabled() {
+        driver.get("http://localhost:8080/product/" +
+                "the-elements-of-qualitative-chemical-analysis-vol-1-parts-1-and-2-by-stieglitz/");
+        driver.findElement(By.name("add-to-cart")).click();
+        driver.get("http://localhost:8080/cart/");
+
+        WebElement updateButton = driver.findElement(By.name("update_cart"));
+        Assertions.assertFalse(updateButton.isEnabled(),
+                "Update button is enabled while it shouldn't. There were no changes in cart.");
     }
 
     @Test
@@ -37,8 +48,7 @@ public class ExampleTests {
         quantityField.sendKeys("2");
         driver.findElement(By.name("update_cart")).click();
 
-        //wait.until(ExpectedConditions.numberOfElementsToBe(By.className("blockUI"), 0));
-        wait.until(driver -> driver.findElements(By.className("blockUI")).size() == 0);
+        wait.until(ExpectedConditions.numberOfElementsToBe(By.className("blockUI"), 0));
 
         WebElement total = driver.findElement(By.className("order-total"));
 
@@ -54,11 +64,8 @@ public class ExampleTests {
         addToCartButton.click();
         driver.findElement(By.className("wc-block-mini-cart__button")).click();
 
-        //WebElement totalPrice = wait.until(ExpectedConditions.presenceOfElementLocated(
-        //        By.className("wc-block-components-totals-item__value")));
-
-        WebElement totalPrice = wait.until(driver ->
-                driver.findElement(By.className("wc-block-components-totals-item__value")));
+        WebElement totalPrice = wait.until(ExpectedConditions.presenceOfElementLocated(
+                By.className("wc-block-components-totals-item__value")));
 
         Assertions.assertEquals("12,00 €", totalPrice.getText(),
                 "The price displayed in minicart is not correct.");
