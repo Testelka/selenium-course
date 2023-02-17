@@ -26,6 +26,20 @@ public class ExampleTests {
     }
 
     @Test
+    public void product_virtual_should_not_show_shipping() {
+        driver.get("http://localhost:8080/my-account/");
+        driver.findElement(By.id("username")).sendKeys("admin");
+        driver.findElement(By.id("password")).sendKeys("admin");
+        driver.findElement(By.name("login")).click();
+
+        driver.get("http://localhost:8080/wp-admin/post-new.php?post_type=product");
+        driver.findElement(By.id("_virtual")).click();
+        WebElement shippingOptions = driver.findElement(By.className("shipping_options"));
+        Assertions.assertFalse(shippingOptions.isDisplayed(),
+                "Shipping tab is still displayed but should be hidden. The product is a virtual product.");
+    }
+
+    @Test
     public void cart_not_changed_should_update_button_disabled() {
         driver.get("http://localhost:8080/product/" +
                 "the-elements-of-qualitative-chemical-analysis-vol-1-parts-1-and-2-by-stieglitz/");
