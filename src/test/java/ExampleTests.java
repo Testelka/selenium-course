@@ -37,7 +37,8 @@ public class ExampleTests {
         quantityField.sendKeys("2");
         driver.findElement(By.name("update_cart")).click();
 
-        wait.until(ExpectedConditions.numberOfElementsToBe(By.className("blockUI"), 0));
+        //wait.until(ExpectedConditions.numberOfElementsToBe(By.className("blockUI"), 0));
+        wait.until(driver -> driver.findElements(By.className("blockUI")).size() == 0);
 
         WebElement total = driver.findElement(By.className("order-total"));
 
@@ -53,8 +54,11 @@ public class ExampleTests {
         addToCartButton.click();
         driver.findElement(By.className("wc-block-mini-cart__button")).click();
 
-        WebElement totalPrice = wait.until(ExpectedConditions.presenceOfElementLocated(
-                By.className("wc-block-components-totals-item__value"))); 
+        //WebElement totalPrice = wait.until(ExpectedConditions.presenceOfElementLocated(
+        //        By.className("wc-block-components-totals-item__value")));
+
+        WebElement totalPrice = wait.until(driver ->
+                driver.findElement(By.className("wc-block-components-totals-item__value")));
 
         Assertions.assertEquals("12,00 €", totalPrice.getText(),
                 "The price displayed in minicart is not correct.");
