@@ -3,7 +3,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -23,6 +22,24 @@ public class ExampleTests {
     @AfterEach
     public void quitDriver() {
         driver.quit();
+    }
+
+    @Test
+    public void select_all_posts_should_select_each_of_them() {
+        driver.get("http://localhost:8080/my-account/");
+        driver.findElement(By.id("username")).sendKeys("admin");
+        driver.findElement(By.id("password")).sendKeys("admin");
+        driver.findElement(By.name("login")).click();
+
+        driver.get("http://localhost:8080/wp-admin/edit.php?post_type=product");
+        driver.findElement(By.id("cb-select-all-1")).click();
+
+        List<WebElement> productCheckboxes = driver.findElements(By.name("post[]"));
+        long numberOfSelectedCheckboxes = productCheckboxes.stream()
+                .filter(WebElement::isSelected).count();
+        Assertions.assertEquals(7, numberOfSelectedCheckboxes,
+                "Not all the product checkboxes where selected.");
+
     }
 
     @Test
