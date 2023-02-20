@@ -25,6 +25,18 @@ public class ExampleTests {
     }
 
     @Test
+    public void new_product_quantity_typed_in_should_product_quantity_changed() {
+        driver.get("http://localhost:8080/product/" +
+                "the-elements-of-qualitative-chemical-analysis-vol-1-parts-1-and-2-by-stieglitz/");
+        WebElement productQuantity = driver.findElement(By.className("qty"));
+        productQuantity.clear();
+        productQuantity.sendKeys("3");
+
+        Assertions.assertEquals("3", productQuantity.getDomProperty("value"),
+                "Product quantity not changed.");
+    }
+
+    @Test
     public void search_field_should_have_placeholder_text() {
         driver.get("http://localhost:8080/");
         WebElement searchField = driver.findElement(By.id("wc-block-search__input-1"));
