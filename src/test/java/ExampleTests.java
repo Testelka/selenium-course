@@ -25,6 +25,26 @@ public class ExampleTests {
     }
 
     @Test
+    public void update_quantity_in_cart_should_update_total_price() {
+        driver.get("http://localhost:8080/product/" +
+                "the-elements-of-qualitative-chemical-analysis-vol-1-parts-1-and-2-by-stieglitz/");
+        driver.findElement(By.name("add-to-cart")).click();
+        driver.get("http://localhost:8080/cart/");
+        WebElement quantityField = driver.findElement(By.className("qty"));
+        quantityField.clear();
+        quantityField.sendKeys("2");
+        driver.findElement(By.name("update_cart")).click();
+
+        wait.until(ExpectedConditions.numberOfElementsToBe(By.className("blockUI"), 0));
+
+        WebElement total = driver.findElement(By.className("order-total"))
+                .findElement(By.className("amount"));
+
+        Assertions.assertEquals("28,00 €", total.getText(),
+                "Total price is not correct.");
+    }
+
+    @Test
     public void new_product_quantity_typed_in_should_product_quantity_changed() {
         driver.get("http://localhost:8080/product/" +
                 "the-elements-of-qualitative-chemical-analysis-vol-1-parts-1-and-2-by-stieglitz/");
@@ -60,7 +80,6 @@ public class ExampleTests {
                 .filter(WebElement::isSelected).count();
         Assertions.assertEquals(7, numberOfSelectedCheckboxes,
                 "Not all the product checkboxes where selected.");
-
     }
 
     @Test
@@ -87,25 +106,6 @@ public class ExampleTests {
         WebElement updateButton = driver.findElement(By.name("update_cart"));
         Assertions.assertFalse(updateButton.isEnabled(),
                 "Update button is enabled while it shouldn't. There were no changes in cart.");
-    }
-
-    @Test
-    public void update_quantity_in_cart_should_update_total_price() {
-        driver.get("http://localhost:8080/product/" +
-                "the-elements-of-qualitative-chemical-analysis-vol-1-parts-1-and-2-by-stieglitz/");
-        driver.findElement(By.name("add-to-cart")).click();
-        driver.get("http://localhost:8080/cart/");
-        WebElement quantityField = driver.findElement(By.className("qty"));
-        quantityField.clear();
-        quantityField.sendKeys("2");
-        driver.findElement(By.name("update_cart")).click();
-
-        wait.until(ExpectedConditions.numberOfElementsToBe(By.className("blockUI"), 0));
-
-        WebElement total = driver.findElement(By.className("order-total"));
-
-        Assertions.assertEquals("Total 28,00 €", total.getText(),
-                "Total price is not correct.");
     }
 
     @Test
