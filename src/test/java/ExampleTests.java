@@ -25,6 +25,15 @@ public class ExampleTests {
     }
 
     @Test
+    public void search_field_should_have_placeholder_text() {
+        driver.get("http://localhost:8080/");
+        WebElement searchField = driver.findElement(By.id("wc-block-search__input-1"));
+        Assertions.assertEquals("Search products…",
+                searchField.getDomAttribute("placeholder"),
+                "Placeholder for search field is not correct.");
+    }
+
+    @Test
     public void select_all_posts_should_select_each_of_them() {
         driver.get("http://localhost:8080/my-account/");
         driver.findElement(By.id("username")).sendKeys("admin");
