@@ -8,8 +8,6 @@ import java.util.List;
 
 public class AdminPanelTests extends BaseTests {
 
-    private final String newProductSlug = "post-new.php?post_type=product";
-
     @BeforeEach
     public void adminLogin() {
         driver.get(baseUrl + "/my-account/");
@@ -20,7 +18,7 @@ public class AdminPanelTests extends BaseTests {
 
     @Test
     public void product_virtual_should_not_show_shipping() {
-
+        String newProductSlug = "post-new.php?post_type=product";
         driver.get(baseUrl + "/wp-admin/" + newProductSlug);
         driver.findElement(By.id("_virtual")).click();
         WebElement shippingOptions = driver.findElement(By.className("shipping_options"));
@@ -36,7 +34,8 @@ public class AdminPanelTests extends BaseTests {
 
     @Test
     public void select_all_products_should_select_each_of_them() {
-        driver.get(baseUrl + "/wp-admin/" + newProductSlug);
+        String allProductsSlug = "edit.php?post_type=product";
+        driver.get(baseUrl + "/wp-admin/" + allProductsSlug);
         driver.findElement(By.id("cb-select-all-1")).click();
 
         List<WebElement> productCheckboxes = driver.findElements(By.name("post[]"));
