@@ -3,6 +3,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.util.List;
 
@@ -20,7 +21,7 @@ public class AdminPanelTests extends BaseTests {
     public void product_virtual_should_not_show_shipping() {
         String newProductSlug = "post-new.php?post_type=product";
         driver.get(baseUrl + "/wp-admin/" + newProductSlug);
-        driver.findElement(By.id("_virtual")).click();
+        wait.until(ExpectedConditions.elementToBeClickable(By.id("_virtual"))).click();
         WebElement shippingOptions = driver.findElement(By.className("shipping_options"));
         Assertions.assertFalse(shippingOptions.isDisplayed(),
                 "Shipping tab is still displayed but should be hidden. The product is a virtual product.");
@@ -36,6 +37,8 @@ public class AdminPanelTests extends BaseTests {
     public void select_all_products_should_select_each_of_them() {
         String allProductsSlug = "edit.php?post_type=product";
         driver.get(baseUrl + "/wp-admin/" + allProductsSlug);
+
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.id("activity-panel-tab-setup")));
         driver.findElement(By.id("cb-select-all-1")).click();
 
         List<WebElement> productCheckboxes = driver.findElements(By.name("post[]"));
