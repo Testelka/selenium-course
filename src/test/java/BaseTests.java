@@ -15,8 +15,6 @@ public class BaseTests {
     @BeforeEach
     public void setup() {
         driver = new ChromeDriver();
-        ChromeOptions options = new ChromeOptions();
-        options.addArguments("--headless=new");
         wait = new WebDriverWait(driver, Duration.ofSeconds(5));
     }
 
