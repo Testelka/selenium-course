@@ -6,8 +6,8 @@ import org.openqa.selenium.WebElement;
 public class ProductTests extends BaseTests {
     @Test
     public void new_product_quantity_typed_in_should_product_quantity_changed() {
-        driver.get("http://localhost:8080/product/" +
-                "the-elements-of-qualitative-chemical-analysis-vol-1-parts-1-and-2-by-stieglitz/");
+        String chemicalAnalysisSlug = "the-elements-of-qualitative-chemical-analysis-vol-1-parts-1-and-2-by-stieglitz/";
+        driver.get(baseUrl + "/product/" + chemicalAnalysisSlug);
         WebElement productQuantity = driver.findElement(By.className("qty"));
         productQuantity.clear();
         productQuantity.sendKeys("3");
