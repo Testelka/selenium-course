@@ -2,13 +2,12 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 
-public class CheckoutTests extends BaseTests{
+public class CheckoutTests extends BaseTests {
 
     private final By addToCartButtonLocator = By.name("add-to-cart");
     private final String chemicalAnalysisSlug =
@@ -18,6 +17,7 @@ public class CheckoutTests extends BaseTests{
     public void setWait() {
         wait = new WebDriverWait(driver, Duration.ofSeconds(10));
     }
+
     @Test
     public void successful_purchase_should_show_order_received_message() {
         driver.get(baseUrl + "/product/" + chemicalAnalysisSlug);
@@ -32,21 +32,19 @@ public class CheckoutTests extends BaseTests{
         driver.findElement(By.cssSelector("#billing_phone")).sendKeys("6666666");
         driver.findElement(By.cssSelector("#billing_email")).sendKeys("test@test.pl");
 
-        WebElement cardNumberFrame = driver.findElement(By.cssSelector("#stripe-card-element iframe"));
-        driver.switchTo().frame(cardNumberFrame);
+        wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(By.cssSelector("#stripe-card-element iframe")));
         driver.findElement(By.cssSelector("[name=cardnumber]")).sendKeys("4242424242424242");
         driver.switchTo().defaultContent();
 
-        WebElement cardExpiryDateFrame = driver.findElement(By.cssSelector("#stripe-exp-element iframe"));
-        driver.switchTo().frame(cardExpiryDateFrame);
+        wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(By.cssSelector("#stripe-exp-element iframe")));
         driver.findElement(By.cssSelector("[name=exp-date]")).sendKeys("444");
         driver.switchTo().defaultContent();
 
-        WebElement cardCvcFrame = driver.findElement(By.cssSelector("#stripe-cvc-element iframe"));
-        driver.switchTo().frame(cardCvcFrame);
+        wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(By.cssSelector("#stripe-cvc-element iframe")));
         driver.findElement(By.cssSelector("[name=cvc]")).sendKeys("222");
         driver.switchTo().defaultContent();
 
+        wait.until(ExpectedConditions.numberOfElementsToBe(By.className("blockUI"), 0));
         driver.findElement(By.cssSelector("#place_order")).click();
         wait.until(ExpectedConditions.numberOfElementsToBe(By.className("blockUI"), 0));
 
