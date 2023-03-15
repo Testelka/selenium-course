@@ -1,31 +1,49 @@
+import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.junit.jupiter.api.*;
-public class CartTests extends BaseTests {
 
-    String addToCartFromProductButtonSelector = "[name=add-to-cart]";
-    String goToCartFromProductButtonSelector = ".woocommerce-message>.button";
-    String productsInCartSelector = "tr.cart_item";
-    String updateCartButtonSelector = "[name=update_cart]";
-    String loadingIconSelector = ".blockUI";
-    String quantityFieldInCartSelector = "input.qty";
-    String totalPriceInCartSelector = "[data-title=Total]";
-    String calculusURL = "/product/calculus-made-easy-by-silvanus-p-thompson/";
-    String historyOfAstronomyURL = "/product/history-of-astronomy-by-george-forbes/";
+import java.time.Duration;
+
+public class CartTests extends BaseTests {
+    By addToCartFromProductButtonLocator = By.cssSelector("[name=add-to-cart]");
+    By goToCartFromProductButtonLocator = By.cssSelector(".woocommerce-message>.button");
+    By productsInCartLocator = By.cssSelector("tr.cart_item");
+    By updateCartButtonLocator = By.cssSelector("[name=update_cart]");
+    By loadingIconLocator = By.cssSelector(".blockUI");
+    By quantityFieldInCartLocator = By.cssSelector("input.qty");
+    By totalPriceInCartLocator = By.cssSelector("[data-title=Total]");
+
+    String calculusURL = baseURL + "/product/calculus-made-easy-by-silvanus-p-thompson/";
+    String historyOfAstronomyURL = baseURL + "/product/history-of-astronomy-by-george-forbes/";
+
+    @BeforeEach
+    public void setup() {
+        driver = new ChromeDriver();
+        wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+    }
+    @AfterEach
+    public void quitDriver() {
+        driver.quit();
+    }
 
     @Test
     public void no_product_added_to_cart_should_cart_be_empty() {
-        bot.go("/cart/");
+        driver.get(baseURL + "/cart/");
 
-        Assertions.assertEquals(0, bot.getNumberOfElements(".shop_table"),
+        Assertions.assertThrows(NoSuchElementException.class,
+                () -> driver.findElement(By.cssSelector(".shop_table")),
                 "Products table was found in cart while no product was added.");
     }
     @Test
     public void product_added_to_cart_should_cart_have_one_product() {
-        bot.go(calculusURL);
-        bot.click(addToCartFromProductButtonSelector);
-        bot.click(goToCartFromProductButtonSelector);
-
-        int numberOfProducts = bot.getNumberOfElements(productsInCartSelector);
-
+        driver.get(calculusURL);
+        driver.findElement(addToCartFromProductButtonLocator).click();
+        driver.findElement(goToCartFromProductButtonLocator).click();
+        int numberOfProducts = driver.findElements(productsInCartLocator).size();
         Assertions.assertEquals(1, numberOfProducts,
                 "Expected number of products in cart: 1" +
                         "\nActual: " + numberOfProducts);
@@ -33,13 +51,12 @@ public class CartTests extends BaseTests {
 
     @Test
     public void two_products_added_to_cart_should_cart_have_two_products() {
-        bot.go(calculusURL);
-        bot.click(addToCartFromProductButtonSelector);
-        bot.go(historyOfAstronomyURL);
-        bot.click(addToCartFromProductButtonSelector);
-        bot.click(goToCartFromProductButtonSelector);
-
-        int numberOfProducts = bot.getNumberOfElements(productsInCartSelector);
+        driver.get(calculusURL);
+        driver.findElement(addToCartFromProductButtonLocator).click();
+        driver.get(historyOfAstronomyURL);
+        driver.findElement(addToCartFromProductButtonLocator).click();
+        driver.findElement(goToCartFromProductButtonLocator).click();
+        int numberOfProducts = driver.findElements(productsInCartLocator).size();
         Assertions.assertEquals(2, numberOfProducts,
                 "Expected number of products in cart: 2" +
                         "\nActual: " + numberOfProducts);
@@ -47,31 +64,35 @@ public class CartTests extends BaseTests {
 
     @Test
     public void changing_quantity_in_cart_should_change_total_price() {
-        bot.go(calculusURL);
-        bot.click(addToCartFromProductButtonSelector);
-        bot.click(goToCartFromProductButtonSelector);
-        bot.type(quantityFieldInCartSelector, "3");
-        bot.click(updateCartButtonSelector);
+        driver.get(calculusURL);
+        driver.findElement(addToCartFromProductButtonLocator).click();
+        driver.findElement(goToCartFromProductButtonLocator).click();
+        WebElement quantityField = driver.findElement(quantityFieldInCartLocator);
+        quantityField.clear();
+        quantityField.sendKeys("3");
+        driver.findElement(updateCartButtonLocator).click();
 
-        bot.waitToDisappear(loadingIconSelector, 5);
+        wait.until(ExpectedConditions.numberOfElementsToBe(loadingIconLocator, 0));
 
         Assertions.assertEquals("39,00 €",
-                bot.getText(totalPriceInCartSelector),
+                driver.findElement(totalPriceInCartLocator).getText(),
                 "Total price after quantity update is not what expected.");
     }
 
     @Test
     public void changing_quantity_in_cart_to_negative_should_not_update_total_price() {
-        bot.go(calculusURL);
-        bot.click(addToCartFromProductButtonSelector);
-        bot.click(goToCartFromProductButtonSelector);
-        bot.type(quantityFieldInCartSelector, "-3");
-        bot.click(updateCartButtonSelector);
+        driver.get(calculusURL);
+        driver.findElement(addToCartFromProductButtonLocator).click();
+        driver.findElement(goToCartFromProductButtonLocator).click();
+        WebElement quantityField = driver.findElement(quantityFieldInCartLocator);
+        quantityField.clear();
+        quantityField.sendKeys("-3");
+        driver.findElement(updateCartButtonLocator).click();
 
-        bot.waitToDisappear(loadingIconSelector, 5);
+        wait.until(ExpectedConditions.numberOfElementsToBe(loadingIconLocator, 0));
 
         Assertions.assertEquals("13,00 €",
-                bot.getText(totalPriceInCartSelector),
-                "Total price is not what expected.");
+                driver.findElement(totalPriceInCartLocator).getText(),
+                "Total price after quantity update is not what expected.");
     }
 }

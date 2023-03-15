@@ -1,16 +1,19 @@
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
 
 public class BaseTests {
-    private WebDriver driver;
-    protected ActionBot bot;
+    protected WebDriver driver;
+    protected WebDriverWait wait;
+    protected String baseURL = "http://localhost:8080";
 
     @BeforeEach
     public void setup() {
         driver = new FirefoxDriver();
-        String baseURL = "http://localhost:8080";
-        bot = new ActionBot(driver, baseURL);
+        wait = new WebDriverWait(driver, Duration.ofSeconds(5));
     }
 
     @AfterEach
