@@ -1,12 +1,8 @@
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.junit.jupiter.api.*;
-
-import java.time.Duration;
 
 public class CartTests extends BaseTests {
     By addToCartFromProductButtonLocator = By.cssSelector("[name=add-to-cart]");
@@ -19,16 +15,6 @@ public class CartTests extends BaseTests {
 
     String calculusURL = baseURL + "/product/calculus-made-easy-by-silvanus-p-thompson/";
     String historyOfAstronomyURL = baseURL + "/product/history-of-astronomy-by-george-forbes/";
-
-    @BeforeEach
-    public void setup() {
-        driver = new ChromeDriver();
-        wait = new WebDriverWait(driver, Duration.ofSeconds(5));
-    }
-    @AfterEach
-    public void quitDriver() {
-        driver.quit();
-    }
 
     @Test
     public void no_product_added_to_cart_should_cart_be_empty() {
