@@ -2,18 +2,17 @@ package pageobjects;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-
-import java.time.Duration;
 
 public class ProductPage extends BasePage {
     private By addToCart = By.cssSelector("[name=add-to-cart]");
     private By goToCart = By.cssSelector(".woocommerce-message>.button");
     private By addToWishlist = By.cssSelector("a.add_to_wishlist");
 
+    public final StoreHeaderComponent storeHeader;
+
     public ProductPage(WebDriver driver) {
         super(driver);
+        storeHeader = new StoreHeaderComponent(driver);
     }
 
     public ProductPage go(String productSlug) {
@@ -36,6 +35,4 @@ public class ProductPage extends BasePage {
         waitForLoadingIconDisappear();
         return this;
     }
-
-
 }

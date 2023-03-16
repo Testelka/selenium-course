@@ -9,7 +9,6 @@ import java.time.Duration;
 
 public abstract class BasePage {
     private By loadingIcon = By.cssSelector(".blockUI");
-    private By goToWishlistFromHeader = By.cssSelector("#menu-item-88 a");
     protected final WebDriver driver;
     protected final String baseURL = "http://localhost:8080";
     protected BasePage(WebDriver driver) {
@@ -19,9 +18,5 @@ public abstract class BasePage {
     protected void waitForLoadingIconDisappear() {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
         wait.until(ExpectedConditions.numberOfElementsToBe(loadingIcon, 0));
-    }
-    public WishlistPage goToWishlist() {
-        driver.findElement(goToWishlistFromHeader).click();
-        return new WishlistPage(driver);
     }
 }
