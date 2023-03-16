@@ -1,23 +1,11 @@
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
 import org.junit.jupiter.api.*;
 import pageobjects.CartPage;
 import pageobjects.ProductPage;
 
 
-public class CartTests {
-    WebDriver driver;
+public class CartTests extends BaseTest {
     String calculusSlug = "/calculus-made-easy-by-silvanus-p-thompson/";
     String historyOfAstronomySlug = "/history-of-astronomy-by-george-forbes/";
-
-    @BeforeEach
-    public void setup() {
-        driver = new FirefoxDriver();
-    }
-    @AfterEach
-    public void quitDriver() {
-        driver.quit();
-    }
 
     @Test
     public void no_product_added_to_cart_should_cart_be_empty() {
