@@ -5,15 +5,14 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 
-public class CartPage {
+public class CartPage extends BasePage {
     private By productItem = By.cssSelector("tr.cart_item");
     private By quantityField = By.cssSelector("input.qty");
     private By updateCartButton = By.cssSelector("[name=update_cart]");
     private By loadingIcon = By.cssSelector(".blockUI");
     private By totalPrice = By.cssSelector("[data-title=Total]");
-    private final WebDriver driver;
     public CartPage(WebDriver driver) {
-        this.driver = driver;
+        super(driver);
     }
 
     public void go() {
