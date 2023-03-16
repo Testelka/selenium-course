@@ -1,10 +1,17 @@
 import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.junit.jupiter.api.*;
 
-public class CartTests extends BaseTests {
+import java.time.Duration;
+
+public class CartTests {
+    WebDriver driver;
+    WebDriverWait wait;
+    String baseURL = "http://localhost:8080";
     By addToCartFromProductButtonLocator = By.cssSelector("[name=add-to-cart]");
     By goToCartFromProductButtonLocator = By.cssSelector(".woocommerce-message>.button");
     By productsInCartLocator = By.cssSelector("tr.cart_item");
@@ -12,17 +19,27 @@ public class CartTests extends BaseTests {
     By loadingIconLocator = By.cssSelector(".blockUI");
     By quantityFieldInCartLocator = By.cssSelector("input.qty");
     By totalPriceInCartLocator = By.cssSelector("[data-title=Total]");
+    By productItem = By.cssSelector("tr.cart_item");
 
     String calculusURL = baseURL + "/product/calculus-made-easy-by-silvanus-p-thompson/";
     String historyOfAstronomyURL = baseURL + "/product/history-of-astronomy-by-george-forbes/";
+
+    @BeforeEach
+    public void setup() {
+        driver = new FirefoxDriver();
+        wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+    }
+    @AfterEach
+    public void quitDriver() {
+        driver.quit();
+    }
 
     @Test
     public void no_product_added_to_cart_should_cart_be_empty() {
         driver.get(baseURL + "/cart/");
 
-        Assertions.assertThrows(NoSuchElementException.class,
-                () -> driver.findElement(By.cssSelector(".shop_table")),
-                "Products table was found in cart while no product was added.");
+        Assertions.assertEquals(0, driver.findElements(productItem).size(),
+                "Number of products in cart is not 0.");
     }
     @Test
     public void product_added_to_cart_should_cart_have_one_product() {
