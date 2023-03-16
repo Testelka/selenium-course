@@ -11,7 +11,6 @@ public class CartPage extends BasePage {
     private By productItem = By.cssSelector("tr.cart_item");
     private By quantityField = By.cssSelector("input.qty");
     private By updateCartButton = By.cssSelector("[name=update_cart]");
-    private By loadingIcon = By.cssSelector(".blockUI");
     private By totalPrice = By.cssSelector("[data-title=Total]");
     public CartPage(WebDriver driver) {
         super(driver);
@@ -31,8 +30,7 @@ public class CartPage extends BasePage {
         driver.findElement(quantityField).sendKeys(String.valueOf(quantity));
         driver.findElement(updateCartButton).click();
 
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
-        wait.until(ExpectedConditions.numberOfElementsToBe(loadingIcon, 0));
+        waitForLoadingIconDisappear();
         return this;
     }
 

@@ -11,8 +11,7 @@ public class ProductPage extends BasePage {
     private By addToCart = By.cssSelector("[name=add-to-cart]");
     private By goToCart = By.cssSelector(".woocommerce-message>.button");
     private By addToWishlist = By.cssSelector("a.add_to_wishlist");
-    private By loadingIcon = By.cssSelector(".blockUI");
-    private By goToWishlistFromHeader = By.cssSelector("#menu-item-88 a");
+
     public ProductPage(WebDriver driver) {
         super(driver);
     }
@@ -34,13 +33,9 @@ public class ProductPage extends BasePage {
 
     public ProductPage addToWishlist() {
         driver.findElement(addToWishlist).click();
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
-        wait.until(ExpectedConditions.numberOfElementsToBe(loadingIcon, 0));
+        waitForLoadingIconDisappear();
         return this;
     }
 
-    public WishlistPage goToWishlist() {
-        driver.findElement(goToWishlistFromHeader).click();
-        return new WishlistPage(driver);
-    }
+
 }
