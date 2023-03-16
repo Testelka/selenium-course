@@ -9,7 +9,6 @@ public class ProductPage extends BasePage{
     }
 
     public ProductPage go(String productSlug) {
-        String baseURL = "http://localhost:8080";
         driver.get(baseURL + "/product/" + productSlug);
         return this;
     }

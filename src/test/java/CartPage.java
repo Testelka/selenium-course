@@ -16,7 +16,6 @@ public class CartPage extends BasePage {
     }
 
     public CartPage go() {
-        String baseURL = "http://localhost:8080";
         driver.get(baseURL + "/cart/");
         return this;
     }
