@@ -19,8 +19,7 @@ public class CartTests {
 
     @Test
     public void no_product_added_to_cart_should_cart_be_empty() {
-        CartPage cartPage = new CartPage(driver);
-        cartPage.go();
+        CartPage cartPage = new CartPage(driver).go();
 
         Assertions.assertEquals(0, cartPage.getNumberOfProducts(),
                 "Number of products in cart is not 0.");
