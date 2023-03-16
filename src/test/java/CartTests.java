@@ -1,6 +1,8 @@
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.junit.jupiter.api.*;
+import pageobjects.CartPage;
+import pageobjects.ProductPage;
 
 
 public class CartTests {
