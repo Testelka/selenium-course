@@ -36,9 +36,10 @@ public class CartTests {
 
     @Test
     public void no_product_added_to_cart_should_cart_be_empty() {
-        driver.get(baseURL + "/cart/");
+        CartPage cartPage = new CartPage(driver);
+        cartPage.go();
 
-        Assertions.assertEquals(0, driver.findElements(productItem).size(),
+        Assertions.assertEquals(0, cartPage.getNumberOfProducts(),
                 "Number of products in cart is not 0.");
     }
     @Test
