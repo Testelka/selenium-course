@@ -1,7 +1,7 @@
 package pageobjects;
 
+import helpers.Browser;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 
 public class ProductPage extends BasePage {
     private By addToCart = By.cssSelector("[name=add-to-cart]");
@@ -10,9 +10,9 @@ public class ProductPage extends BasePage {
 
     public final StoreHeaderComponent storeHeader;
 
-    public ProductPage(WebDriver driver) {
-        super(driver);
-        storeHeader = new StoreHeaderComponent(driver);
+    public ProductPage(Browser browser) {
+        super(browser);
+        storeHeader = new StoreHeaderComponent(browser);
     }
 
     public ProductPage go(String productSlug) {
@@ -27,7 +27,7 @@ public class ProductPage extends BasePage {
 
     public CartPage goToCart() {
         driver.findElement(goToCart).click();
-        return new CartPage(driver);
+        return new CartPage(browser);
     }
 
     public ProductPage addToWishlist() {

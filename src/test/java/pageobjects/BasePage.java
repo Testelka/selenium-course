@@ -1,6 +1,6 @@
 package pageobjects;
 
-import helpers.ConfigurationReader;
+import helpers.Browser;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -11,10 +11,12 @@ import java.time.Duration;
 public abstract class BasePage {
     private By loadingIcon = By.cssSelector(".blockUI");
     protected final WebDriver driver;
+    protected final Browser browser;
     protected final String baseURL;
-    protected BasePage(WebDriver driver) {
-        this.driver = driver;
-        baseURL = new ConfigurationReader().getBaseUrl();
+    protected BasePage(Browser browser) {
+        this.browser = browser;
+        this.driver = browser.driver();
+        baseURL = browser.baseURL();
     }
 
     protected void waitForLoadingIconDisappear() {

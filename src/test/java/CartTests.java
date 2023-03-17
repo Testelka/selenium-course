@@ -8,14 +8,14 @@ public class CartTests extends BaseTest {
 
     @Test
     public void no_product_added_to_cart_should_cart_be_empty() {
-        CartPage cartPage = new CartPage(driver).go();
+        CartPage cartPage = new CartPage(browser).go();
 
         Assertions.assertEquals(0, cartPage.getNumberOfProducts(),
                 "Number of products in cart is not 0.");
     }
     @Test
     public void product_added_to_cart_should_cart_have_one_product() {
-        ProductPage productPage = new ProductPage(driver);
+        ProductPage productPage = new ProductPage(browser);
         CartPage cartPage = productPage.go(calculusSlug).addToCart().goToCart();
         int numberOfProducts = cartPage.getNumberOfProducts();
 
@@ -26,7 +26,7 @@ public class CartTests extends BaseTest {
 
     @Test
     public void two_products_added_to_cart_should_cart_have_two_products() {
-        ProductPage productPage = new ProductPage(driver);
+        ProductPage productPage = new ProductPage(browser);
         CartPage cartPage = productPage
                 .go(calculusSlug).addToCart()
                 .go(historyOfAstronomySlug).addToCart().goToCart();
@@ -39,7 +39,7 @@ public class CartTests extends BaseTest {
 
     @Test
     public void changing_quantity_in_cart_should_change_total_price() {
-        ProductPage productPage = new ProductPage(driver);
+        ProductPage productPage = new ProductPage(browser);
         CartPage cartPage = productPage
                 .go(calculusSlug)
                 .addToCart()
@@ -53,7 +53,7 @@ public class CartTests extends BaseTest {
 
     @Test
     public void changing_quantity_in_cart_to_negative_should_not_update_total_price() {
-        ProductPage productPage = new ProductPage(driver);
+        ProductPage productPage = new ProductPage(browser);
         CartPage cartPage = productPage
                 .go(calculusSlug)
                 .addToCart()

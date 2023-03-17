@@ -8,7 +8,7 @@ public class WishlistTests extends BaseTest{
     String calculusSlug = "/calculus-made-easy-by-silvanus-p-thompson/";
     @Test
     public void product_added_to_wishlist_should_wishlist_have_one_item() {
-        ProductPage productPage = new ProductPage(driver).go(calculusSlug);
+        ProductPage productPage = new ProductPage(browser).go(calculusSlug);
         WishlistPage wishlistPage = productPage.addToWishlist().storeHeader.goToWishlist();
 
         Assertions.assertEquals(1, wishlistPage.getNumberOfProducts(),
@@ -17,7 +17,7 @@ public class WishlistTests extends BaseTest{
 
     @Test
     public void no_product_added_to_wishlist_should_wishlist_be_empty() {
-        MainPage mainPage = new MainPage(driver);
+        MainPage mainPage = new MainPage(browser);
         WishlistPage wishlistPage = mainPage.go().storeHeader.goToWishlist();
     }
 }
