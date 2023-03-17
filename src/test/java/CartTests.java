@@ -2,7 +2,6 @@ import org.junit.jupiter.api.*;
 import pageobjects.CartPage;
 import pageobjects.ProductPage;
 
-
 public class CartTests extends BaseTest {
     String calculusSlug = "/calculus-made-easy-by-silvanus-p-thompson/";
     String historyOfAstronomySlug = "/history-of-astronomy-by-george-forbes/";
