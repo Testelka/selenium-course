@@ -1,4 +1,6 @@
+import helpers.ConfigurationReader;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -10,29 +12,38 @@ import org.openqa.selenium.firefox.FirefoxOptions;
 
 public class BaseTest {
     protected WebDriver driver;
-    private final String browser = "firefox";
-    private final boolean isHeadless = true;
+    private static ConfigurationReader configuration;
+    @BeforeAll
+    public static void loadConfiguration() {
+        configuration = new ConfigurationReader();
+    }
     @BeforeEach
     public void setup() {
-        if (browser.equals("firefox")) {
-            if (isHeadless) {
-                driver = new FirefoxDriver(new FirefoxOptions().addArguments("-headless"));
-            } else {
-                driver = new FirefoxDriver();
-            }
-        } else if (browser.equals("chrome")) {
-            if (isHeadless) {
-                driver = new ChromeDriver(new ChromeOptions().addArguments("--headless=new"));
-            } else {
-                driver = new ChromeDriver();
-            }
-        } else if (browser.equals("edge")) {
-            if (isHeadless) {
-                driver = new EdgeDriver(new EdgeOptions().addArguments("--headless=new"));
-            } else {
-                driver = new EdgeDriver();
-            }
+        String browser = configuration.getBrowser();
+        boolean isHeadless = configuration.isHeadless();
 
+        switch (browser) {
+            case "firefox" -> {
+                if (isHeadless) {
+                    driver = new FirefoxDriver(new FirefoxOptions().addArguments("-headless"));
+                } else {
+                    driver = new FirefoxDriver();
+                }
+            }
+            case "chrome" -> {
+                if (isHeadless) {
+                    driver = new ChromeDriver(new ChromeOptions().addArguments("--headless=new"));
+                } else {
+                    driver = new ChromeDriver();
+                }
+            }
+            case "edge" -> {
+                if (isHeadless) {
+                    driver = new EdgeDriver(new EdgeOptions().addArguments("--headless=new"));
+                } else {
+                    driver = new EdgeDriver();
+                }
+            }
         }
     }
     @AfterEach
