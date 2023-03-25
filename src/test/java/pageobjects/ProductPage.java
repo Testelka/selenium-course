@@ -1,13 +1,16 @@
 package pageobjects;
 
 import helpers.Browser;
-import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 
 public class ProductPage extends BasePage {
-    private By addToCart = By.cssSelector("[name=add-to-cart]");
-    private By goToCart = By.cssSelector(".woocommerce-message>.button");
-    private By addToWishlist = By.cssSelector("a.add_to_wishlist");
-
+    @FindBy(css = "[name=add-to-cart]")
+    private WebElement addToCart;
+    @FindBy(css = ".woocommerce-message>.button")
+    private WebElement goToCart;
+    @FindBy(css = "a.add_to_wishlist")
+    private WebElement addToWishlist;
     public final StoreHeaderComponent storeHeader;
 
     public ProductPage(Browser browser) {
@@ -21,17 +24,17 @@ public class ProductPage extends BasePage {
     }
 
     public ProductPage addToCart() {
-        driver.findElement(addToCart).click();
+        addToCart.click();
         return this;
     }
 
     public CartPage goToCart() {
-        driver.findElement(goToCart).click();
+        goToCart.click();
         return new CartPage(browser);
     }
 
     public ProductPage addToWishlist() {
-        driver.findElement(addToWishlist).click();
+        addToWishlist.click();
         waitForLoadingIconDisappear();
         return this;
     }

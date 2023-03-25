@@ -1,13 +1,21 @@
 package pageobjects;
 
 import helpers.Browser;
-import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;;
+
+import java.util.List;
 
 public class CartPage extends BasePage {
-    private By productItem = By.cssSelector("tr.cart_item");
-    private By quantityField = By.cssSelector("input.qty");
-    private By updateCartButton = By.cssSelector("[name=update_cart]");
-    private By totalPrice = By.cssSelector("[data-title=Total]");
+
+    @FindBy(css = "tr.cart_item")
+    private List<WebElement> productItems;
+    @FindBy(css = "input.qty")
+    private WebElement quantityField;
+    @FindBy(css = "[name=update_cart]")
+    private WebElement updateCartButton;
+    @FindBy(css = "[data-title=Total]")
+    private WebElement totalPrice;
     public CartPage(Browser browser) {
         super(browser);
     }
@@ -18,19 +26,19 @@ public class CartPage extends BasePage {
     }
 
     public int getNumberOfProducts() {
-        return driver.findElements(productItem).size();
+        return productItems.size();
     }
 
     public CartPage changeQuantity(int quantity) {
-        driver.findElement(quantityField).clear();
-        driver.findElement(quantityField).sendKeys(String.valueOf(quantity));
-        driver.findElement(updateCartButton).click();
+        quantityField.clear();
+        quantityField.sendKeys(String.valueOf(quantity));
+        updateCartButton.click();
 
         waitForLoadingIconDisappear();
         return this;
     }
 
     public String getTotalPrice() {
-        return driver.findElement(totalPrice).getText();
+        return totalPrice.getText();
     }
 }

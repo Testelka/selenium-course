@@ -1,15 +1,19 @@
 package pageobjects;
 
 import helpers.Browser;
-import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+
+import java.util.List;
 
 public class WishlistPage extends BasePage {
-    private By productItems = By.cssSelector(".wishlist-items-wrapper tr td.product-remove");
+    @FindBy(css = ".wishlist-items-wrapper tr td.product-remove")
+    private List<WebElement> productItems;
     protected WishlistPage(Browser browser) {
         super(browser);
     }
 
     public int getNumberOfProducts() {
-        return driver.findElements(productItems).size();
+        return productItems.size();
     }
 }
