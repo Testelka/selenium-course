@@ -11,6 +11,8 @@ public class ConfigurationReader {
     private String baseURL;
     private String headless;
     private String waitInSeconds;
+    private String target;
+    private String remoteURL;
 
     public ConfigurationReader() {
         String configurationPath = "src/test/resources/configuration.properties";
@@ -34,6 +36,8 @@ public class ConfigurationReader {
         browser = properties.getProperty("browser");
         headless = properties.getProperty("headless");
         waitInSeconds = properties.getProperty("waitInSeconds");
+        target = properties.getProperty("target");
+        remoteURL = properties.getProperty("remoteURL");
     }
 
     public String getBrowser() {
@@ -52,5 +56,14 @@ public class ConfigurationReader {
     public int getWaitInSeconds() {
         if (!waitInSeconds.isEmpty()) return Integer.parseInt(waitInSeconds);
         else throw new RuntimeException("\"waitInSeconds\"is not specified in the Configuration.properties file.");
+    }
+    public String getTarget() {
+        if (!target.isEmpty()) return target;
+        else throw new RuntimeException("\"target\"is not specified in the Configuration.properties file.");
+    }
+
+    public String getRemoteURL() {
+        if (!remoteURL.isEmpty()) return remoteURL;
+        else throw new RuntimeException("\"remoteURL\"is not specified in the Configuration.properties file.");
     }
 }
